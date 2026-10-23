@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="tg">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>ENGLISH FIRUZ</title>
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="icon-192.png">
+<link rel="apple-touch-icon" href="icon-192.png">
+<meta name="theme-color" content="#12204a">
+<style>
+:root{--bg:#fff;--card:#f5f8ff;--ink:#0f1b3d;--mute:#5a6785;--acc:#1d4ed8;--red:#dc2626;--accink:#fff;--line:#d6def5;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0b1430;--card:#12204a;--ink:#f1f5ff;--mute:#9fb0d9;--acc:#6ea0ff;--red:#ff6b6b;--accink:#04122e;--line:#27396b}}
+:root[data-theme="dark"]{--bg:#0b1430;--card:#12204a;--ink:#f1f5ff;--mute:#9fb0d9;--acc:#6ea0ff;--red:#ff6b6b;--accink:#04122e;--line:#27396b}
+*{box-sizing:border-box}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:Roboto,system-ui,"Segoe UI",sans-serif;line-height:1.5}
+main{max-width:640px;margin:0 auto;padding:20px 16px 40px}
+main::before{content:"";display:block;height:6px;border-radius:3px;margin-bottom:16px;background:linear-gradient(90deg,#1d4ed8,#dc2626)}
+h1{font-size:1.8rem;margin:0 0 4px;letter-spacing:.04em;font-weight:800}.e{color:var(--acc)}.f{color:var(--red)}
+p.sub{margin:0 0 16px;color:var(--mute);font-family:system-ui,sans-serif;font-size:.9rem}
+input{width:100%;padding:14px;font-size:1.05rem;border:2px solid var(--line);border-radius:10px;background:var(--card);color:var(--ink);font-family:system-ui,sans-serif}
+input:focus{outline:3px solid var(--acc);border-color:var(--acc)}
+.tabs{display:flex;gap:8px;margin:12px 0}
+.tabs button,.add button{font:inherit;font-family:system-ui,sans-serif;padding:10px 14px;border-radius:10px;border:2px solid var(--line);background:var(--card);color:var(--ink);cursor:pointer}
+.tabs button[aria-pressed="true"]{background:var(--acc);color:var(--accink);border-color:var(--acc)}
+ul{list-style:none;margin:0;padding:0}
+li{display:flex;align-items:center;gap:12px;background:var(--card);border:1px solid var(--line);border-radius:10px;padding:12px 14px;margin-bottom:8px}
+.w{flex:1;min-width:0}
+.en{font-size:1.25rem;font-weight:700}
+.tr{color:var(--red);font-family:system-ui,sans-serif;font-size:1rem}
+.tg{font-size:1.1rem}
+.spk{flex:none;width:48px;height:48px;border-radius:50%;border:0;background:var(--acc);color:var(--accink);font-size:1.3rem;cursor:pointer}
+.spk:focus-visible,button:focus-visible{outline:3px solid var(--ink);outline-offset:2px}
+.add{margin-top:24px;padding-top:16px;border-top:1px solid var(--line);display:grid;gap:8px}
+.add h2{font-size:1.1rem;margin:0}
+.empty{color:var(--mute);font-family:system-ui,sans-serif;padding:12px}
+.note{color:var(--mute);font-family:system-ui,sans-serif;font-size:.85rem;margin-top:8px}
+</style>
+</head>
+<body>
+<main>
+<h1><span class="e">ENGLISH</span> <span class="f">FIRUZ</span></h1>
+<p class="sub">Калимаро ҷустуҷӯ кунед ва тугмаи 🔊-ро пахш кунед, то талаффузро бишнавед.</p>
+<input id="q" type="search" placeholder="Ҷустуҷӯ: hello ё салом" autocomplete="off">
+<div class="tabs">
+<button id="t1" aria-pressed="true">Ҳама калимаҳо</button>
+<button id="t2" aria-pressed="false">Калимаҳои ман</button>
+</div>
+<ul id="list"></ul>
+<form class="add" id="f" onsubmit="return false">
+<h2>Калимаи нав илова кунед</h2>
+<input id="ne" placeholder="Англисӣ (масалан: apple)">
+<input id="nt" placeholder="Талаффуз (масалан: эпл)">
+<input id="ng" placeholder="Тоҷикӣ (масалан: себ)">
+<button id="ab" type="button">Илова кардан</button>
+<p class="note" id="nv"></p>
+</form>
+</main>
+<script>
+var BASE=[
+["hello","хэлоу","салом"],["goodbye","гудбай","хайр"],["thank you","сэнк ю","ташаккур"],["please","плиз","лутфан"],
+["yes","йес","ҳа"],["no","ноу","не"],["sorry","сори","бубахшед"],["good","гуд","хуб"],["bad","бэд","бад"],
+["water","уотер","об"],["bread","бред","нон"],["food","фуд","хӯрок"],["tea","ти","чой"],["milk","милк","шир"],
+["apple","эпл","себ"],["house","хаус","хона"],["door","дор","дар"],["window","уиндоу","тиреза"],["table","тэйбл","миз"],
+["friend","френд","дӯст"],["mother","мазер","модар"],["father","фазер","падар"],["brother","бразер","бародар"],
+["sister","систер","хоҳар"],["child","чайлд","кӯдак"],["man","мэн","мард"],["woman","умен","зан"],
+["book","бук","китоб"],["school","скул","мактаб"],["teacher","тичер","муаллим"],["student","стьюдент","донишҷӯ"],
+["phone","фоун","телефон"],["computer","компьютер","компютер"],["money","мани","пул"],["work","уорк","кор"],
+["day","дэй","рӯз"],["night","найт","шаб"],["morning","морнинг","субҳ"],["sun","сан","офтоб"],["moon","мун","моҳ"],
+["star","стар","ситора"],["sky","скай","осмон"],["earth","ёрс","замин"],["tree","три","дарахт"],["flower","флауэр","гул"],
+["dog","дог","саг"],["cat","кэт","гурба"],["bird","бёрд","парранда"],["horse","хорс","асп"],
+["big","биг","калон"],["small","смол","хурд"],["new","нью","нав"],["old","оулд","кӯҳна"],["beautiful","бьютифул","зебо"],
+["love","лав","муҳаббат"],["happy","хэпи","хушбахт"],["red","ред","сурх"],["blue","блу","кабуд"],["green","грин","сабз"],
+["one","уан","як"],["two","ту","ду"],["three","сри","се"],["ten","тен","даҳ"],
+["eat","ит","хӯрдан"],["drink","дринк","нӯшидан"],["go","гоу","рафтан"],["come","кам","омадан"],["read","рид","хондан"],
+["write","райт","навиштан"],["speak","спик","гап задан"],["learn","лёрн","омӯхтан"],["want","уонт","хостан"],["know","ноу","донистан"],
+["I","ай","ман"],["you","ю","ту"],["he","хи","ӯ (мард)"],["she","ши","ӯ (зан)"],["we","уи","мо"],["they","дэй","онҳо"],["this","дис","ин"],["that","дэт","он"],["what","уот","чӣ"],["where","уэр","дар куҷо"],["when","уэн","кай"],["who","ху","кӣ"],["why","уай","чаро"],["how","хау","чӣ тавр"],["here","хиэр","инҷо"],["there","дэр","онҷо"],["and","энд","ва"],["but","бат","аммо"],["or","ор","ё"],["with","уиз","бо"],["without","уизаут","бе"],["in","ин","дар"],["on","он","болои"],["under","андер","зери"],["because","бикоз","барои он ки"],["very","вэри","хеле"],["many","мэни","бисёр"],["all","ол","ҳама"],["some","сам","баъзе"],["more","мор","бештар"],["also","олсоу","ҳам"],["again","эгейн","бори дигар"],["only","оунли","танҳо"],
+["name","нэйм","ном"],["word","уёрд","калима"],["language","лэнгуиҷ","забон"],["question","квесчен","савол"],["answer","энсер","ҷавоб"],["number","намбер","рақам"],["place","плэйс","ҷой"],["thing","синг","чиз"],["problem","проблем","мушкилот"],["idea","айдиа","ғоя"],["mistake","мистэйк","хато"],["price","прайс","нарх"],["job","джоб","ҷои кор"],
+["four","фор","чор"],["five","файв","панҷ"],["six","сикс","шаш"],["seven","сэвен","ҳафт"],["eight","эйт","ҳашт"],["nine","найн","нӯҳ"],["twenty","твенти","бист"],["hundred","хандред","сад"],["thousand","таузенд","ҳазор"],["zero","зиро","сифр"],
+["black","блэк","сиёҳ"],["white","уайт","сафед"],["yellow","йелоу","зард"],["orange","ориндж","норанҷӣ"],["pink","пинк","гулобӣ"],["brown","браун","қаҳваранг"],["gray","грэй","хокистарӣ"],["purple","пёрпл","бунафш"],
+["son","сан","писар"],["daughter","дотер","духтар"],["husband","хазбенд","шавҳар"],["wife","уайф","ҳамсар (зан)"],["grandmother","грэндмазер","бибӣ"],["grandfather","грэндфазер","бобо"],["boy","бой","писарбача"],["girl","гёрл","духтарбача"],["baby","бэйби","тифл"],["people","пипл","мардум"],["family","фэмили","оила"],["neighbor","нэйбор","ҳамсоя"],["guest","гест","меҳмон"],["doctor","доктор","табиб"],["driver","драйвер","ронанда"],["farmer","фармер","деҳқон"],
+["head","хэд","сар"],["eye","ай","чашм"],["ear","иэр","гӯш"],["nose","ноуз","бинӣ"],["mouth","маус","даҳон"],["hand","хэнд","даст"],["foot","фут","по"],["leg","лег","соқ"],["heart","харт","дил"],["face","фэйс","рӯй"],["hair","хэр","мӯй"],["tooth","туф","дандон"],["finger","фингер","ангушт"],["back","бэк","пушт"],["stomach","стамак","шикам"],["body","боди","бадан"],
+["rice","райс","биринҷ"],["meat","мит","гӯшт"],["fish","фиш","моҳӣ"],["egg","эг","тухм"],["salt","солт","намак"],["sugar","шугар","шакар"],["butter","батер","равған"],["cheese","чиз","панир"],["soup","суп","шӯрбо"],["fruit","фрут","мева"],["vegetable","веджтебл","сабзавот"],["potato","потэйто","картошка"],["tomato","томэйто","помидор"],["onion","анион","пиёз"],["carrot","кэррот","сабзӣ"],["grape","грэйп","ангур"],["banana","банана","банан"],["lemon","лемон","лимӯ"],["coffee","кофи","қаҳва"],["juice","джус","шарбат"],["breakfast","брекфаст","ноништа"],["lunch","ланч","хӯроки нисфирӯзӣ"],["dinner","динер","хӯроки шом"],["hungry","хангри","гурусна"],["thirsty","сёрсти","ташна"],["sweet","свит","ширин"],
+["room","рум","ҳуҷра"],["kitchen","китчен","ошхона"],["bed","бэд","кат"],["chair","чэр","курсӣ"],["key","ки","калид"],["car","кар","мошин"],["bus","бас","автобус"],["train","трэйн","қатор"],["plane","плэйн","ҳавопаймо"],["bike","байк","велосипед"],["road","роуд","роҳ"],["city","сити","шаҳр"],["village","вилидж","деҳа"],["street","стрит","кӯча"],["shop","шоп","мағоза"],["market","маркет","бозор"],["hospital","хоспитал","беморхона"],["bank","бэнк","бонк"],["park","парк","боғ"],["mountain","маунтин","кӯҳ"],["river","ривер","дарё"],["sea","си","баҳр"],["lake","лэйк","кӯл"],["rain","рэйн","борон"],["snow","сноу","барф"],["wind","винд","бод"],["fire","файер","оташ"],["cloud","клауд","абр"],["country","кантри","кишвар"],["world","уёрлд","ҷаҳон"],
+["today","тудэй","имрӯз"],["tomorrow","томороу","пагоҳ"],["yesterday","йестердэй","дирӯз"],["week","уик","ҳафта"],["month","манс","моҳ"],["year","йиэр","сол"],["hour","ауэр","соат"],["minute","минит","дақиқа"],["time","тайм","вақт"],["evening","ивнинг","бегоҳ"],["now","нау","ҳозир"],["always","олуэйз","ҳамеша"],["never","невер","ҳаргиз"],["spring","спринг","баҳор"],["summer","самер","тобистон"],["autumn","отэм","тирамоҳ"],["winter","уинтер","зимистон"],
+["hot","хот","гарм"],["cold","коулд","сард"],["long","лонг","дароз"],["short","шорт","кӯтоҳ"],["fast","фаст","тез"],["slow","слоу","суст"],["easy","изи","осон"],["difficult","дификалт","мушкил"],["strong","стронг","пурзӯр"],["weak","вик","заиф"],["rich","рич","бой"],["poor","пур","камбағал"],["clean","клин","тоза"],["dirty","дёрти","ифлос"],["young","янг","ҷавон"],["tall","тол","баланд"],["heavy","хэви","вазнин"],["light","лайт","сабук"],["open","оупен","кушода"],["closed","клоузд","баста"],["full","фул","пур"],["empty","эмпти","холӣ"],["right","райт","дуруст"],["wrong","ронг","нодуруст"],["true","тру","ҳақиқӣ"],["free","фри","озод"],["busy","бизи","банд"],["tired","тайрд","хаста"],["sick","сик","бемор"],["healthy","хелси","солим"],["angry","энгри","хашмгин"],["sad","сэд","ғамгин"],["kind","кайнд","меҳрубон"],["clever","клевер","зирак"],["dangerous","дэйнджерес","хатарнок"],["important","импортант","муҳим"],
+["see","си","дидан"],["hear","хиэр","шунидан"],["look","лук","нигоҳ кардан"],["give","гив","додан"],["take","тэйк","гирифтан"],["make","мэйк","сохтан"],["buy","бай","харидан"],["sell","сэл","фурӯхтан"],["sleep","слип","хоб кардан"],["walk","уок","пиёда рафтан"],["run","ран","давидан"],["sit","сит","нишастан"],["stand","стэнд","истодан"],["stop","стоп","бас кардан"],["wait","уэйт","мунтазир шудан"],["ask","аск","пурсидан"],["think","синк","фикр кардан"],["understand","андерстэнд","фаҳмидан"],["remember","римембер","дар хотир доштан"],["forget","форгет","фаромӯш кардан"],["help","хелп","кумак кардан"],["call","кол","занг задан"],["play","плэй","бозӣ кардан"],["sing","синг","сурудан"],["dance","дэнс","рақсидан"],["laugh","лаф","хандидан"],["cry","край","гиристан"],["live","лив","зиндагӣ кардан"],["die","дай","мурдан"],["wash","уош","шустан"],["cook","кук","пухтан"],["start","старт","сар кардан"],["finish","финиш","тамом кардан"],["try","трай","кӯшиш кардан"],["use","юз","истифода бурдан"],["find","файнд","ёфтан"],["lose","луз","гум кардан"],["win","уин","ғолиб шудан"],["pay","пэй","пардохтан"],["send","сенд","фиристодан"],["bring","бринг","овардан"],["like","лайк","дӯст доштан"],["need","нид","лозим доштан"],["have","хэв","доштан"],["say","сэй","гуфтан"],["meet","мит","вохӯрдан"],["teach","тич","омӯзондан"],["travel","трэвел","сафар кардан"],["wear","уэр","пӯшидан"],["swim","свим","шино кардан"],["fly","флай","паридан"],["climb","клайм","баромадан"],["fall","фол","афтидан"],["count","каунт","шумурдан"],["build","билд","бино кардан"],
+["God","гад","Худо"],["life","лайф","зиндагӣ"],["death","дэс","марг"],["war","уор","ҷанг"],["peace","пис","сулҳ"],["health","хелс","саломатӣ"],["news","нюз","хабар"],["story","стори","ҳикоя"],["song","сонг","суруд"],["music","мьюзик","мусиқӣ"],["game","гейм","бозӣ"],["film","филм","филм"],["picture","пикчер","расм"],["paper","пэйпер","коғаз"],["pen","пен","қалам"],["letter","летер","мактуб"],["gift","гифт","тӯҳфа"],["dream","дрим","орзу, хоб"],["power","пауэр","қувва"],["luck","лак","бахт"],["smile","смайл","табассум"],["voice","войс","овоз"],["sport","спорт","варзиш"],["football","футбол","футбол"],["university","юниверсити","донишгоҳ"],["lesson","лесн","дарс"],["exam","игзэм","имтиҳон"],["homework","хоумуорк","вазифаи хонагӣ"],["dictionary","дикшенери","луғат"],["clothes","клоуз","либос"],["shirt","шёрт","курта"],["shoes","шуз","пойафзол"],["hat","хэт","кулоҳ"],["bag","бэг","сумка"],["ring","ринг","ангуштарин"],["watch","уоч","соати дастӣ"],["glass","гласс","стакан"],["knife","найф","корд"],["spoon","спун","қошуқ"],["plate","плэйт","тарелка"],["cup","кап","пиёла"],
+["good morning","гуд морнинг","субҳ ба хайр"],["good night","гуд найт","шаб ба хайр"],["welcome","уэлкам","хуш омадед"],["how are you","хау ар ю","аҳвол чӣ хел?"],["I love you","ай лав ю","ман туро дӯст медорам"],["excuse me","икскьюз ми","бубахшед"],["I don't understand","ай доунт андерстэнд","ман намефаҳмам"],["help me","хелп ми","ба ман кумак кунед"],["how much","хау мач","чанд пул?"],["Monday","мандэй","душанбе"],["Tuesday","тьюздэй","сешанбе"],["Wednesday","уэнздэй","чоршанбе"],["Thursday","сёрздэй","панҷшанбе"],["Friday","фрайдэй","ҷумъа"],["Saturday","сэтердэй","шанбе"],["Sunday","сандэй","якшанбе"],
+["January","джэнюэри","январ"],["February","фебруэри","феврал"],["March","марч","март"],["April","эйприл","апрел"],["May","мэй","май"],["June","джун","июн"],["July","джулай","июл"],["August","огаст","август"],["September","септембер","сентябр"],["October","октоубер","октябр"],["November","новембер","ноябр"],["December","децембер","декабр"],
+["engineer","инджиниэр","муҳандис"],["lawyer","лойер","ҳуқуқшинос"],["nurse","нёрс","ҳамшира"],["police","полис","милиса"],["soldier","соулджер","сарбоз"],["seller","селер","фурӯшанда"],["builder","билдер","бинокор"],["artist","артист","рассом"],["singer","сингер","хонанда"],["writer","райтер","нависанда"],["journalist","джёрналист","рӯзноманигор"],["manager","менеджер","мудир"],["boss","бос","раис"],["waiter","уэйтер","официант"],["barber","барбер","сартарош"],["tailor","тэйлор","дӯзанда"],["mechanic","механик","механик"],["pilot","пайлот","халабон"],["scientist","сайентист","олим"],["actor","эктор","актёр"],["judge","джадж","қозӣ"],["programmer","прогрэммер","барномасоз"],["businessman","бизнесмэн","тоҷир"],["president","президент","президент"],["dentist","дентист","духтури дандон"],
+["internet","интернет","интернет"],["website","уэбсайт","вебсайт"],["email","имэйл","почтаи электронӣ"],["message","месидж","паём"],["password","пасуорд","рамз"],["photo","фоуто","сурат"],["video","видиоу","видео"],["camera","кэмера","камера"],["screen","скрин","экран"],["button","батн","тугма"],["battery","бэттери","батарея"],["charger","чарджер","заряддиҳанда"],["app","эп","барнома"],["file","файл","файл"],["link","линк","пайванд"],["search","сёрч","ҷустуҷӯ"],["download","даунлоуд","боргирӣ"],["online","онлайн","онлайн"],["network","нэтуорк","шабака"],["keyboard","киборд","клавиатура"],["television","телевижн","телевизор"],["radio","рэйдиоу","радио"],
+["airport","эрпорт","фурудгоҳ"],["station","стэйшн","истгоҳ"],["ticket","тикит","чипта"],["passport","пэспорт","шиноснома"],["hotel","хоутел","меҳмонхона"],["map","мэп","харита"],["luggage","лагидж","бағоҷ"],["tourist","турист","сайёҳ"],["visit","визит","боздид"],["border","бордер","сарҳад"],["taxi","такси","таксӣ"],["trip","трип","сафар"],["left","лефт","чап"],["straight","стрэйт","рост"],["near","ниэр","наздик"],["far","фар","дур"],["north","норс","шимол"],["south","саус","ҷануб"],["east","ист","шарқ"],["west","уэст","ғарб"],["address","эдрес","суроға"],["ship","шип","киштӣ"],["bridge","бридж","пул (кӯпрук)"],
+["medicine","медисин","дору"],["pain","пэйн","дард"],["fever","фивер","таб"],["cough","коф","сулфа"],["headache","хэдэйк","дарди сар"],["blood","блад","хун"],["bone","боун","устухон"],["skin","скин","пӯст"],["pharmacy","фармаси","дорухона"],["rest","рест","истироҳат"],["patient","пэйшент","бемор"],["ambulance","эмбьюленс","ёрии таъҷилӣ"],["tablet","тэблит","ҳаб"],["vitamin","витамин","витамин"],
+["cheap","чип","арзон"],["expensive","икспенсив","гарон"],["discount","дискаунт","тахфиф"],["cash","кэш","пули нақд"],["card","кард","корт"],["bill","бил","ҳисоб"],["customer","кастомер","харидор"],["size","сайз","андоза"],["receipt","рисит","чек"],["basket","баскит","сабад"],["pocket","покит","ҷайб"],["wallet","уоллит","ҳамён"],["gold","гоулд","тилло"],["silver","силвер","нуқра"],["iron","айрн","оҳан"],["wood","вуд","чӯб"],["stone","стоун","санг"],["plastic","пластик","пластик"],
+["cow","кау","гов"],["sheep","шип","гӯсфанд"],["goat","гоут","буз"],["chicken","чикен","мурғ"],["donkey","донки","хар"],["camel","кэмел","уштур"],["wolf","вулф","гург"],["bear","бэр","хирс"],["lion","лайон","шер"],["tiger","тайгер","паланг"],["fox","фокс","рӯбоҳ"],["rabbit","рэббит","харгӯш"],["mouse","маус","муш"],["snake","снэйк","мор"],["bee","би","занбӯри асал"],["butterfly","баттерфлай","шапалак"],["ant","энт","мӯрча"],["elephant","элефант","фил"],["monkey","манки","маймун"],["duck","дак","мурғобӣ"],["goose","гус","ғоз"],["wing","винг","бол"],["tail","тэйл","дум"],["animal","эниммал","ҳайвон"],
+["forest","форест","ҷангал"],["field","филд","саҳро"],["desert","дезерт","биёбон"],["island","айленд","ҷазира"],["grass","грас","алаф"],["leaf","лиф","барг"],["rose","роуз","садбарг"],["wave","уэйв","мавҷ"],["storm","сторм","тӯфон"],["ice","айс","ях"],["thunder","сандер","раъд"],["shadow","шэдоу","соя"],["air","эр","ҳаво"],["weather","уэзер","обу ҳаво"],["sand","сэнд","рег"],["hill","хил","теппа"],["fog","фог","туман"],
+["close","клоуз","пӯшидан"],["carry","кэрри","бардоштан"],["cut","кат","бурридан"],["break","брэйк","шикастан"],["push","пуш","тела додан"],["pull","пул","кашидан"],["throw","сроу","партофтан"],["hold","хоулд","доштан"],["follow","фолоу","пайравӣ кардан"],["choose","чуз","интихоб кардан"],["change","чейндж","иваз кардан"],["borrow","борроу","қарз гирифтан"],["invite","инвайт","даъват кардан"],["arrive","эрайв","расидан"],["leave","лив","тарк кардан"],["return","ритёрн","баргаштан"],["enter","энтер","даромадан"],["grow","гроу","калон шудан"],["hide","хайд","пинҳон кардан"],["hurry","хёрри","шитофтан"],["hope","хоуп","умед доштан"],["believe","билив","бовар кардан"],["agree","эгри","розӣ шудан"],["decide","дисайд","қарор додан"],["explain","иксплэйн","шарҳ додан"],["listen","лисн","гӯш кардан"],["shout","шаут","фарёд задан"],["touch","тач","расидан (даст задан)"],["marry","мэрри","хонадор шудан"],["save","сэйв","наҷот додан"],["share","шэр","тақсим кардан"],["paint","пэйнт","ранг кардан"],["fix","фикс","таъмир кардан"],
+["deep","дип","чуқур"],["wide","уайд","васеъ"],["narrow","нэроу","танг"],["thick","сик","ғафс"],["thin","син","борик"],["soft","софт","нарм"],["hard","хард","сахт"],["dry","драй","хушк"],["wet","вет","тар"],["bright","брайт","равшан"],["dark","дарк","торик"],["loud","лауд","баландсадо"],["quiet","квайет","ором"],["safe","сэйф","бехатар"],["ready","реди","тайёр"],["same","сэйм","якхела"],["different","дифферент","гуногун"],["special","спешл","махсус"],["famous","фэймос","машҳур"],["modern","модерн","замонавӣ"],["lazy","лэйзи","танбал"],["brave","брэйв","шуҷоъ"],["polite","полайт","хушмуомила"],["honest","онист","ростқавл"],["funny","фанни","хандовар"],["boring","борин","дилгиркунанда"],["interesting","интерестинг","ҷолиб"],["delicious","делишес","бомаза"],
+["first","фёрст","якум"],["last","ласт","охирин"],["next","некст","навбатӣ"],["other","азер","дигар"],["every","эври","ҳар як"],["both","боус","ҳарду"],["enough","инаф","кифоя"],["maybe","мэйби","шояд"],["really","рили","воқеан"],["still","стил","ҳанӯз"],["already","олреди","аллакай"],["soon","сун","ба зудӣ"],["later","лэйтер","баъдтар"],["before","бифор","пеш аз"],["after","афтер","баъд аз"],["about","эбаут","дар бораи"],["from","фром","аз"],["to","ту","ба"],["for","фор","барои"],["inside","инсайд","дарун"],["outside","аутсайд","берун"],["up","ап","боло"],["down","даун","поин"],["behind","бихайнд","паси"],["around","эраунд","атроф"],["if","иф","агар"],["then","дэн","он гоҳ"],["so","соу","пас"],["until","антил","то"],
+["nice to meet you","найс ту мит ю","аз шиносоӣ шодам"]
+];
+var mine=[],mode="all",q=document.getElementById("q"),list=document.getElementById("list");
+try{mine=JSON.parse(localStorage.getItem("mine")||"[]")}catch(e){mine=[]}
+function speak(t){
+ try{var s=window.speechSynthesis;if(!s){alert("Браузери шумо талаффузро дастгирӣ намекунад.");return}
+ s.cancel();var u=new SpeechSynthesisUtterance(t);u.lang="en-US";u.rate=0.85;s.speak(u)}catch(e){}
+}
+function esc(x){return x.replace(/[&<>"]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]})}
+function render(){
+ var src=mode==="all"?BASE.concat(mine):mine,k=q.value.trim().toLowerCase();
+ var r=src.filter(function(w){return !k||w[0].toLowerCase().indexOf(k)>-1||w[2].toLowerCase().indexOf(k)>-1||w[1].toLowerCase().indexOf(k)>-1});
+ if(!r.length){list.innerHTML='<li class="empty">Калима ёфт нашуд. Онро дар поён илова кунед.</li>';return}
+ list.innerHTML=r.map(function(w,i){return '<li><div class="w"><div><span class="en">'+esc(w[0])+'</span> <span class="tr">['+esc(w[1])+']</span></div><div class="tg">— '+esc(w[2])+'</div></div><button class="spk" data-w="'+esc(w[0])+'" aria-label="Талаффуз: '+esc(w[0])+'">🔊</button></li>'}).join("");
+}
+list.addEventListener("click",function(e){var b=e.target.closest(".spk");if(b)speak(b.getAttribute("data-w"))});
+q.addEventListener("input",render);
+function tab(m){mode=m;document.getElementById("t1").setAttribute("aria-pressed",m==="all");document.getElementById("t2").setAttribute("aria-pressed",m==="mine");render()}
+document.getElementById("t1").onclick=function(){tab("all")};
+document.getElementById("t2").onclick=function(){tab("mine")};
+document.getElementById("ab").onclick=function(){
+ var a=document.getElementById("ne").value.trim(),b=document.getElementById("nt").value.trim(),c=document.getElementById("ng").value.trim(),n=document.getElementById("nv");
+ if(!a||!c){n.textContent="Англисӣ ва тоҷикиро нависед.";return}
+ mine.push([a,b||"—",c]);
+ try{localStorage.setItem("mine",JSON.stringify(mine))}catch(e){}
+ ["ne","nt","ng"].forEach(function(id){document.getElementById(id).value=""});
+ n.textContent="Илова шуд!";render();
+};
+render();
+</script>
+<script>if("serviceWorker"in navigator)navigator.serviceWorker.register("sw.js").catch(function(){})</script>
+</body>
+</html>
